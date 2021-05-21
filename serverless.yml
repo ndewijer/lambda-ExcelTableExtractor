@@ -42,11 +42,11 @@ provider:
         - Effect: "Allow"
           Action:
             - "s3:PutObject"
-          Resource: "*"
+          Resource: "arn:aws:s3:::${self:custom.bucketname}/*"
         - Effect: "Allow"
           Action:
             - "ssm:GetParameter"
-          Resource: "arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/ExcelExtractor/*"
+          Resource: "arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/${self:custom.ssmParamPrefix}/*"
         - Effect: Allow
           Action:
             - "KMS:Decrypt"
@@ -59,8 +59,8 @@ provider:
     excelUrl: ""
     worksheets: ""
     tables: ""
-    userSSMParam: /ExcelExtractor/user
-    passwdSSMParam: /ExcelExtractor/password
+    userSSMParam: /${self:custom.ssmParamPrefix}/user
+    passwdSSMParam: /${self:custom.ssmParamPrefix}/password
     bucketName:  ${self:custom.bucketname}
 
 # you can add packaging information here
@@ -100,5 +100,6 @@ plugins:
   - serverless-pseudo-parameters
 custom:
   bucketname: "bucketname here"
+  ssmParamPrefix: "ExcelTableExtractor"
   pythonRequirements:
     dockerizePip: non-linux
