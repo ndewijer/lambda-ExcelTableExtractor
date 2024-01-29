@@ -19,3 +19,10 @@ var/
 # Serverless directories
 .serverless
 .DS_Store
+
+#pyCharm
+.idea/
+node_modules/
+venv/
+package-lock.json
+package.json
